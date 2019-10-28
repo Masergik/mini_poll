@@ -49,7 +49,7 @@ class RegistrationView(View):
         return render(self.request, self.template_name, context={'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             new_user = form.save(commit=False)
             username = form.cleaned_data['username']
@@ -60,8 +60,6 @@ class RegistrationView(View):
             email = form.cleaned_data['email']
             birthday = form.cleaned_data['birthday']
             info = form.cleaned_data['info']
-            phone = form.cleaned_data['phone']
-            city = form.cleaned_data['city']
             new_user.save()
             return HttpResponseRedirect('/')
         return render(self.request, self.template_name, context={'form': form})
